@@ -4,6 +4,8 @@
 Ship::Ship(SHIP_TYPE type, COORDS coord, POSITION pos) {
 
 	this->type = type;
+	this->coord = coord;
+	this->pos = pos;
 
 	switch (type) {
 
@@ -22,9 +24,6 @@ Ship::Ship(SHIP_TYPE type, COORDS coord, POSITION pos) {
 	default:
 		validDecks = 0;
 	}
-
-	this->coord = coord;
-	this->pos = pos;
 }
 
 Ship::~Ship() {

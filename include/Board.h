@@ -33,7 +33,7 @@ public:
 	bool PlaceShip(Ship &s);
 	HIT_RESULT Hit(COORDS c);
 	bool AnyAlive();
-    void Print();
+	void Print();
 	virtual ~Board();
 protected:
 	bool CheckValidPlace( Ship &s);

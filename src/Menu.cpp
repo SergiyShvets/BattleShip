@@ -172,13 +172,11 @@ void Menu::GameRun() {
 void Menu::Server() {
 
 	serverBoard->Server();
-
 }
 
 void Menu::Connect() {
 
 	clientBoard->Client();
-
 }
 
 Menu::~Menu() {

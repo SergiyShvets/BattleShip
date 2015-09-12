@@ -39,7 +39,7 @@ void Game::Run()
 
 	Player *pActivePlayer = &p1;
 	Board  *bActiveBoard = &b2;
-/*
+
 	if(pActivePlayer->DecideWhoseHit()){
 		cout << " Win :)" << endl;
 		cout <<' '<< p1.GetName() << " will hit first" << endl;
@@ -56,21 +56,17 @@ void Game::Run()
 
 	sleep(2);
 	clear();
-*/
+
 	p1.PlaceShips(b1);
 	p2.PlaceShips(b2);
 
 	b1.Print();
 	b2.Print();
 
-
 	while(b1.AnyAlive()  && b2.AnyAlive() ) {
-/*
+
 		c.x = pActivePlayer->InputCoordX(c);
 		c.y = pActivePlayer->InputCoordY(c);
-*/
-		c.x = rand()%10;
-		c.y = rand()%10;
 
 		if(!pActivePlayer->MakeTurn(*bActiveBoard, c))
 		{
@@ -80,11 +76,11 @@ void Game::Run()
 
 		cout << endl;
 
-	//	sleep(1);
-	//	clear();
+		sleep(1);
+		clear();
 		b1.Print();
 		b2.Print();
-	//	sleep(1);
+		sleep(1);
 	}
 	LOG(INFO," ");
 	if(!b1.AnyAlive() ){
