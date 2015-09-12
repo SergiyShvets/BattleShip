@@ -24,10 +24,8 @@ typedef enum{
 
 class Ship {
 public:
-
 	Ship(SHIP_TYPE type, COORDS coord, POSITION pos);
 	virtual ~Ship();
-
 	SHIP_TYPE GetType() const {return type;}
 	POSITION GetPos() const {return pos;}
 	COORDS GetCoord() const {return coord;}

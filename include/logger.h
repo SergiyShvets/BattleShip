@@ -10,7 +10,6 @@ enum LOG_LEVELS {
 	DBG
 };
 
-
 class Logger {
 private:
 	static LOG_LEVELS m_logLevel;

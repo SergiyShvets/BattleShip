@@ -12,14 +12,12 @@
 class Menu {
 public:
 	Menu();
-
 	void LoadTitle();
 	int MainMenu();
-
 	virtual ~Menu();
 private:
 
-	int NewGame(int &option);
+	int NewGameMenu(int &option);
 	int ReadOption(int &option);
 	void GameRun();
 	void Rules();
@@ -27,6 +25,7 @@ private:
 	void Connect();
 	ClientBoard *clientBoard;
 	ServerBoard *serverBoard;
+	int option;
 };
 
 #endif

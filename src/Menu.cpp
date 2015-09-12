@@ -17,7 +17,7 @@ void clearScreen() {
 #endif
 }
 
-Menu::Menu():clientBoard(), serverBoard() {
+Menu::Menu():clientBoard(), serverBoard(), option() {
 
 }
 
@@ -72,6 +72,7 @@ int Menu::MainMenu() {
 int Menu::ReadOption(int &option) {
 
 	char choseOption[BOARD_DIM] = { '1', '2', '3' };
+	string result;
 
 	for (int i = 0; i < BOARD_DIM; i++) {
 		option = choseOption[i];
@@ -79,7 +80,7 @@ int Menu::ReadOption(int &option) {
 		switch (choseOption[i]) {
 		case '1':
 			clearScreen();
-			NewGame(option);
+			NewGameMenu(option);
 			break;
 		case '2':
 			clearScreen();
@@ -93,6 +94,7 @@ int Menu::ReadOption(int &option) {
 		default:
 			cout
 					<< "\n\t\t         You have entered wrong option\n\t\t         please try again:";
+
 			continue;
 		}
 	}
@@ -118,9 +120,10 @@ void Menu::Rules() {
 		MainMenu();
 	else
 		MainMenu();
+	LOG(INFO,"Menu::Rules: " <<"Back");
 }
 
-int Menu::NewGame(int &option) {
+int Menu::NewGameMenu(int &option) {
 
 	string create = "\t\t\t [1] Create Game";
 	string join = "\t\t\t [2] Join Game";

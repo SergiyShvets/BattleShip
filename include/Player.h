@@ -22,7 +22,6 @@ class Player {
 
 public:
 	Player(std::string name);
-
 	bool DecideWhoseHit();
 	bool MakeTurn(Board& board, COORDS hit);
 	void PlaceShips(Board& board);
@@ -31,8 +30,6 @@ public:
 	std::string GetName();
 	void MainMenu();
 	virtual ~Player();
-
-
 private:
 	std::string name;
 };

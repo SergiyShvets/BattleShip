@@ -7,7 +7,6 @@
 #include <vector>
 #include <string>
 
-
 typedef enum {
 	EMPTY,
 	MISS,
@@ -21,26 +20,20 @@ typedef struct {
 
 class IBoard {
 public:
-
     virtual bool PlaceShip(Ship &s) = 0;
 	virtual HIT_RESULT Hit(COORDS c) = 0;
 	virtual bool AnyAlive() = 0;
 	virtual void Print() = 0;
-
 	virtual ~IBoard();
 };
 
 class Board:IBoard {
 public:
 	Board(std::string name);
-
 	bool PlaceShip(Ship &s);
 	HIT_RESULT Hit(COORDS c);
 	bool AnyAlive();
     void Print();
-
-    void Client();
-
 	virtual ~Board();
 protected:
 	bool CheckValidPlace( Ship &s);
