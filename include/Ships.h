@@ -7,10 +7,7 @@ typedef struct {
 } COORDS;
 
 typedef enum {
-	NO_BOOM,
-	BOOM,
-	CATASTROFA,
-	WASHIT
+	NO_BOOM, BOOM, CATASTROFA, WASHIT
 } HIT_RESULT;
 
 #define BOARD_DIM 10

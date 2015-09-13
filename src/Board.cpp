@@ -19,7 +19,7 @@ char outboard = 'F';
 const int MIN_COORD = 0;
 const int MAX_COORD = 9;
 
-Board::Board(std::string n):
+Board::Board(std::string n) :
 		name(n) {
 
 	for (int x = 0; x < BOARD_DIM; x++) {
@@ -241,6 +241,6 @@ Board::~Board() {
 
 }
 
-IBoard::~IBoard(){
+IBoard::~IBoard() {
 
 }

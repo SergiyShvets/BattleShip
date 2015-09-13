@@ -8,7 +8,7 @@
 class Game {
 public:
 	Game();
-	void Run ();
+	void Run();
 	virtual ~Game();
 };
 

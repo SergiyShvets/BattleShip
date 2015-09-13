@@ -8,9 +8,11 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#endif
-#include<iostream>
 #include <unistd.h>
+#endif
+
+#include <pthread.h>
+#include<iostream>
 
 const int BUFLEN = 1024;
 const int PORT = 9999;
@@ -19,7 +21,6 @@ using namespace std;
 
 ServerBoard::ServerBoard() :
 		Board(name) {
-
 }
 
 void ServerBoard::Server() {
@@ -32,36 +33,36 @@ void ServerBoard::Server() {
 	struct sockaddr_in ServerAddr;
 	struct sockaddr_in ClientAddr;
 
-	SOCKET Listen;
+	int Listen;
 
 	char buffer[BUFLEN];
 	char message[BUFLEN];
-	char greeting[BUFLEN] = "Message from server: Connection completed.";
-	int Len;
+	char connected[BUFLEN] = "Message from server: Connection completed.";
+	int addrLen;
 	int recvLen;
 
-	Len = sizeof(ClientAddr);
+	addrLen = sizeof(ClientAddr);
 
 	cout << "Server: " << endl;
 
 #ifdef _WIN32
 	if (WSAStartup(Version, &Wsa) != 0) {
 		cout << "Startup error." << endl;
-		LOG(INFO, "ServerBoard::Server() " << "Windows startup error." );
+		LOG(INFO, "ServerBoard::Server() " << "Windows startup error.");
 	}
 #endif
 
 	cout << "Initialized.";
-	LOG(INFO, "ServerBoard::Server() " << "Initialized." );
+	LOG(INFO, "ServerBoard::Server() " << "Initialized.");
 
 	if ((Listen = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET) {
 		cout << "Could not create socket." << endl;
-		LOG(INFO, "ServerBoard::Server() " << "Could not create socket." );
+		LOG(INFO, "ServerBoard::Server() " << "Could not create socket.");
 		exit(1);
 	} else {
 
 		cout << " Socket created.";
-		LOG(INFO, "ServerBoard::Server() " << "Socket created." );
+		LOG(INFO, "ServerBoard::Server() " << "Socket created.");
 	}
 
 	ServerAddr.sin_family = AF_INET;
@@ -71,44 +72,44 @@ void ServerBoard::Server() {
 	if (bind(Listen, (sockaddr*) &ServerAddr,
 			sizeof(ServerAddr)) == SOCKET_ERROR) {
 		cout << "Bind Failed." << endl;
-		LOG(INFO, "ServerBoard::Server() " << "Bind failed." );
+		LOG(INFO, "ServerBoard::Server() " << "Bind failed.");
 		exit(1);
 	} else {
 
 		cout << " Bind Done." << endl;
-		LOG(INFO, "ServerBoard::Server() " << "Bind Done." );
+		LOG(INFO, "ServerBoard::Server() " << "Bind Done.");
 	}
 
 	cout << "Waiting for client...\n " << endl;
-	LOG(INFO, "ServerBoard::Server() " << "Waiting for client." );
 
 	while (true) {
 
 		if ((recvLen = recvfrom(Listen, buffer, BUFLEN, 0,
-				(struct sockaddr *) &ClientAddr, &Len)) == SOCKET_ERROR) {
+				(struct sockaddr *) &ClientAddr, &addrLen)) == SOCKET_ERROR) {
 			cout << "recvfrom() failed with error code." << endl;
-			LOG(INFO, "ServerBoard::Server() " << "recvfrom() failed with error code." );
+			LOG(INFO,
+					"ServerBoard::Server() " << "recvfrom() failed with error code.");
 		} else {
-		cout << buffer << endl;
-		LOG(INFO, "ServerBoard::Server() " << buffer);
+			cout << buffer << endl;
+			LOG(INFO, "ServerBoard::Server() " << buffer);
 		}
 
-		sendto(Listen, greeting, BUFLEN, 0,
-								(struct sockaddr *) &ClientAddr, Len);
-				cin >> message;
+		sendto(Listen, connected, BUFLEN, 0, (struct sockaddr *) &ClientAddr,
+				addrLen);
+		cin >> message;
 
 		if (sendto(Listen, message, BUFLEN, 0, (struct sockaddr*) &ClientAddr,
-				Len) == SOCKET_ERROR) {
+				addrLen) == SOCKET_ERROR) {
 			cout << "sendto() failed with error code." << endl;
-			LOG(INFO, "ServerBoard::Server() " << "sendto() failed with error code.." );
+			LOG(INFO,
+					"ServerBoard::Server() " << "sendto() failed with error code..");
 		}
 	}
 
 #ifdef _WIN32
 	closesocket(Listen);
 	WSACleanup();
-	system("pause");
-	LOG(INFO, "ServerBoard::Server() " << "Close socket" );
+	LOG(INFO, "ServerBoard::Server() " << "Close socket");
 #else
 	close(Listen);
 	LOG(INFO, "ServerBoard::Server() " << "Close socket" );
@@ -116,6 +117,26 @@ void ServerBoard::Server() {
 
 }
 
+void *ServerBoard::sendMessage(void* arg) {
+	cout << "Hello" << endl;
+	pthread_exit(0);
+	return 0;
+}
+
+void ServerBoard::ThreadFunction() {
+
+	struct sockaddr_in ClientAddr;
+	int addrLen;
+	addrLen = sizeof(ClientAddr);
+
+	pthread_t sendThread;
+	pthread_attr_t attrThread;
+
+	pthread_attr_init(&attrThread);
+	pthread_create(&sendThread, &attrThread, &ServerBoard::sendMessage,
+			(void*) addrLen);
+	pthread_join(sendThread, NULL);
+}
 ServerBoard::~ServerBoard() {
 
 }

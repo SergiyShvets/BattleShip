@@ -16,7 +16,6 @@ public:
 	int MainMenu();
 	virtual ~Menu();
 private:
-
 	int NewGameMenu(int &option);
 	int ReadOption(int &option);
 	void GameRun();

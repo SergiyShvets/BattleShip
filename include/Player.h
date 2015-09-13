@@ -10,8 +10,8 @@
 #include <string>
 
 typedef struct {
-	 char xDigits[BOARD_DIM];
-	 char yChars [BOARD_DIM];
+	char xDigits[BOARD_DIM];
+	char yChars[BOARD_DIM];
 } INPUT;
 
 typedef enum {

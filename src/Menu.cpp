@@ -17,7 +17,8 @@ void clearScreen() {
 #endif
 }
 
-Menu::Menu():clientBoard(), serverBoard(), option() {
+Menu::Menu() :
+		clientBoard(), serverBoard(), option() {
 
 }
 
@@ -120,7 +121,7 @@ void Menu::Rules() {
 		MainMenu();
 	else
 		MainMenu();
-	LOG(INFO,"Menu::Rules: " <<"Back");
+	LOG(INFO, "Menu::Rules: " <<"Back");
 }
 
 int Menu::NewGameMenu(int &option) {

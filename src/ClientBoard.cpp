@@ -33,38 +33,39 @@ void ClientBoard::Client() {
 
 	struct sockaddr_in ClientAddr;
 
-	SOCKET Connect;
+	int Connect;
 
-	int Len;
+	int addrLen;
 	char buffer[BUFLEN];
 	char message[BUFLEN];
-	char greeting[BUFLEN] = "Message from client: Client connected.";
+	char connected[BUFLEN] = "Message from client: Client connected.";
 	char ip[MAX_IP_SIZE];
 	short port;
 
-	Len = sizeof(ClientAddr);
+	addrLen = sizeof(ClientAddr);
 
 	cout << "Client:" << endl;
 
 	cout << "Enter IP: ";
 	cin >> ip;
-	LOG(INFO, "ServerBoard::Client() " << "IP: " << ip );
+	LOG(INFO, "ServerBoard::Client() " << "IP: " << ip);
 	cout << "Enter Port: ";
 	cin >> port;
-	LOG(INFO, "ServerBoard::Client() " << "Port: " << port );
+	LOG(INFO, "ServerBoard::Client() " << "Port: " << port);
 	cout << endl;
 
 #ifdef _WIN32
 	if (WSAStartup(Version, &Wsa) != 0) {
 		cout << "Startup error." << endl;
-		LOG(INFO, "ServerBoard::Client() " << "Windows startup error." );
+		LOG(INFO, "ServerBoard::Client() " << "Windows startup error.");
 		exit(1);
 	}
 #endif
 
 	if ((Connect = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == SOCKET_ERROR) {
 		cout << "socket() failed with error code." << endl;
-		LOG(INFO, "ServerBoard::Client() " << "socket() failed with error code." );
+		LOG(INFO,
+				"ServerBoard::Client() " << "socket() failed with error code.");
 		exit(1);
 	}
 
@@ -76,31 +77,31 @@ void ClientBoard::Client() {
 
 	while (true) {
 
-		sendto(Connect, greeting, BUFLEN, 0,
-						(struct sockaddr *) &ClientAddr, Len);
+		sendto(Connect, connected, BUFLEN, 0, (struct sockaddr *) &ClientAddr,
+				addrLen);
 
-
-		if (sendto(Connect, message, BUFLEN, 0,
-				(struct sockaddr *) &ClientAddr, Len) == SOCKET_ERROR) {
+		if (sendto(Connect, message, BUFLEN, 0, (struct sockaddr *) &ClientAddr,
+				addrLen) == SOCKET_ERROR) {
 			cout << "sendto() failed with error code." << endl;
-			LOG(INFO, "ServerBoard::Client() " << "sendto() failed with error code." );
+			LOG(INFO,
+					"ServerBoard::Client() " << "sendto() failed with error code.");
 		}
 
 		if (recvfrom(Connect, buffer, BUFLEN, 0,
-				(struct sockaddr *) &ClientAddr, &Len) == SOCKET_ERROR) {
+				(struct sockaddr *) &ClientAddr, &addrLen) == SOCKET_ERROR) {
 			cout << "recvfrom() failed with error code." << endl;
-			LOG(INFO, "ServerBoard::Client() " << "recvfrom() failed with error code." );
-		}else {
+			LOG(INFO,
+					"ServerBoard::Client() " << "recvfrom() failed with error code.");
+		} else {
 			cout << buffer << endl;
-			LOG(INFO, "ServerBoard::Client() " << buffer );
-			}
+			LOG(INFO, "ServerBoard::Client() " << buffer);
+		}
 	}
 
 #ifdef _WIN32
 	closesocket(Connect);
 	WSACleanup();
-	system("pause");
-	LOG(INFO, "ServerBoard::Client() " << "Close socket" );
+	LOG(INFO, "ServerBoard::Client() " << "Close socket");
 #else
 	close(Connect);
 	LOG(INFO, "ServerBoard::Client() " << "Close socket" );

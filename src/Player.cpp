@@ -22,7 +22,6 @@ string vert = "Vertical  ";
 Player::Player(string n) :
 		name(n) {
 	srand(static_cast<unsigned int>(time(NULL)));
-
 }
 
 Player::~Player() {
@@ -35,7 +34,8 @@ bool Player::DecideWhoseHit() {
 	int result = 0;
 	int choice;
 	cout << " Throw a coin" << endl;
-	cout << ' ' << name << " choose [1]" << head << " or [2]" << tail << ":" << endl;
+	cout << ' ' << name << " choose [1]" << head << " or [2]" << tail << ":"
+			<< endl;
 	cout << ' ';
 
 	cin >> choice;
@@ -258,7 +258,7 @@ int Player::InputCoordY(COORDS &c) {
 	return c.y;
 }
 
-void Player::MainMenu(){
+void Player::MainMenu() {
 	Menu m;
 	m.MainMenu();
 }

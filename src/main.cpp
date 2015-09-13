@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "Menu.h"
-#include "Player.h"
 #include "logger.h"
 
 #define AAP_NAME "Ships"
