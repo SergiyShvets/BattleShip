@@ -8,9 +8,15 @@ class ServerBoard: public Board {
 public:
 	ServerBoard();
 	void Server();
+	bool PlaceShip(Ship &s) {return true;}
+	HIT_RESULT Hit(COORDS c){return NO_BOOM;}
+	bool AnyAlive() {return true;}
+	void Print(){}
+
 	void ThreadFunction();
 	static void *sendMessage(void* arg);
 	virtual ~ServerBoard();
+
 };
 
 #endif

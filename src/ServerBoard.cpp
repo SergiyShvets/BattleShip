@@ -37,7 +37,7 @@ void ServerBoard::Server() {
 
 	char buffer[BUFLEN];
 	char message[BUFLEN];
-	char connected[BUFLEN] = "Message from server: Connection completed.";
+	const char connected[BUFLEN] = "Message from server: Connection completed.";
 	int addrLen;
 	int recvLen;
 
@@ -96,7 +96,7 @@ void ServerBoard::Server() {
 
 		sendto(Listen, connected, BUFLEN, 0, (struct sockaddr *) &ClientAddr,
 				addrLen);
-		cin >> message;
+
 
 		if (sendto(Listen, message, BUFLEN, 0, (struct sockaddr*) &ClientAddr,
 				addrLen) == SOCKET_ERROR) {
@@ -104,7 +104,11 @@ void ServerBoard::Server() {
 			LOG(INFO,
 					"ServerBoard::Server() " << "sendto() failed with error code..");
 		}
+		break;
 	}
+	cout << endl << endl;
+	cout << "[1] Create Game\n" << "[2] Join Game\n" << "[3] Back\n" << endl;
+	cout << "Enter your option: ";
 
 #ifdef _WIN32
 	closesocket(Listen);

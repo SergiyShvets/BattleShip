@@ -38,7 +38,7 @@ void ClientBoard::Client() {
 	int addrLen;
 	char buffer[BUFLEN];
 	char message[BUFLEN];
-	char connected[BUFLEN] = "Message from client: Client connected.";
+	const char connected[BUFLEN] = "Message from client: Client connected.";
 	char ip[MAX_IP_SIZE];
 	short port;
 
@@ -96,7 +96,13 @@ void ClientBoard::Client() {
 			cout << buffer << endl;
 			LOG(INFO, "ServerBoard::Client() " << buffer);
 		}
+
+		break;
 	}
+
+	cout << endl << endl;
+	cout << "[1] Create Game\n" << "[2] Join Game\n" << "[3] Back\n" << endl;
+	cout << "Enter your option: ";
 
 #ifdef _WIN32
 	closesocket(Connect);

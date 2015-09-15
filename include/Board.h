@@ -27,10 +27,10 @@ public:
 class Board: IBoard {
 public:
 	Board(std::string name);
-	bool PlaceShip(Ship &s);
-	HIT_RESULT Hit(COORDS c);
-	bool AnyAlive();
-	void Print();
+	virtual bool PlaceShip(Ship &s);
+	virtual HIT_RESULT Hit(COORDS c);
+	virtual bool AnyAlive();
+	virtual void Print();
 	virtual ~Board();
 protected:
 	bool CheckValidPlace(Ship &s);

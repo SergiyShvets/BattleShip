@@ -8,6 +8,10 @@ class ClientBoard: public IBoard {
 public:
 	ClientBoard();
 	void Client();
+	bool PlaceShip(Ship &s) {return true;}
+	HIT_RESULT Hit(COORDS c){return NO_BOOM;}
+	bool AnyAlive() {return true;}
+	void Print(){}
 	virtual ~ClientBoard();
 };
 

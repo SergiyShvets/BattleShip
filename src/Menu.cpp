@@ -62,9 +62,6 @@ int Menu::MainMenu() {
 	cout << newGame << endl;
 	cout << rules << endl;
 	cout << exit << endl << endl;
-
-	sleep(1);
-
 	cout << enter;
 	option = ReadOption(option);
 	return option;
@@ -135,9 +132,7 @@ int Menu::NewGameMenu(int &option) {
 	cout << endl;
 	cout << create << endl;
 	cout << join << endl;
-	cout << back << endl;
-	sleep(1);
-	cout << endl;
+	cout << back << endl << endl;
 	cout << enter;
 
 	char choseOption[BOARD_DIM] = { '1', '2', '3' };
