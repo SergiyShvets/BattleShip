@@ -10,8 +10,8 @@ int main() {
 	Logger::Open(AAP_NAME ".log", DBG, 1000000);
 	LOG(INFO, "main(): Game start" << '\n');
 
-	Menu m;
-	m.MainMenu();
+	Game g;
+	g.Run();
 
 	LOG(INFO, "main(): Game over");
 	Logger::Close();

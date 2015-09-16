@@ -164,7 +164,7 @@ void Player::PlaceShips(Board& board) {
 
 int Player::InputCoordX(COORDS &c) {
 
-	cout << " Press [#] to give up." << endl;
+	cout << " Press [x] to give up." << endl;
 	cout << ' ' << name << " Enter X(0-9) - Y(A-J) coordinates:" << endl;
 	cout << ' ';
 
@@ -195,7 +195,7 @@ int Player::InputCoordX(COORDS &c) {
 			return 8;
 		case '9':
 			return 9;
-		case '#':
+		case 'x':
 			cout << " Give up!" << endl;
 			cout << ' ' << name << " has lost" << endl;
 			sleep(2);

@@ -12,7 +12,7 @@
 #endif
 
 #include <pthread.h>
-#include<iostream>
+#include <iostream>
 
 const int BUFLEN = 1024;
 const int PORT = 9999;
@@ -121,26 +121,6 @@ void ServerBoard::Server() {
 
 }
 
-void *ServerBoard::sendMessage(void* arg) {
-	cout << "Hello" << endl;
-	pthread_exit(0);
-	return 0;
-}
-
-void ServerBoard::ThreadFunction() {
-
-	struct sockaddr_in ClientAddr;
-	int addrLen;
-	addrLen = sizeof(ClientAddr);
-
-	pthread_t sendThread;
-	pthread_attr_t attrThread;
-
-	pthread_attr_init(&attrThread);
-	pthread_create(&sendThread, &attrThread, &ServerBoard::sendMessage,
-			(void*) addrLen);
-	pthread_join(sendThread, NULL);
-}
 ServerBoard::~ServerBoard() {
 
 }
