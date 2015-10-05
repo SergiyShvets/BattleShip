@@ -13,9 +13,15 @@
 
 #include <pthread.h>
 #include <iostream>
+#include <cstdlib>
 
 const int BUFLEN = 1024;
 const int PORT = 9999;
+
+#ifndef SOCKET_ERROR
+    #define SOCKET_ERROR -1
+	#define INVALID_SOCKET 0;
+#endif
 
 using namespace std;
 
@@ -24,11 +30,6 @@ ServerBoard::ServerBoard() :
 }
 
 void ServerBoard::Server() {
-
-#ifdef _WIN32
-	WSADATA Wsa;
-	WORD Version = MAKEWORD(2, 1);
-#endif
 
 	struct sockaddr_in ServerAddr;
 	struct sockaddr_in ClientAddr;
@@ -45,20 +46,13 @@ void ServerBoard::Server() {
 
 	cout << "Server: " << endl;
 
-#ifdef _WIN32
-	if (WSAStartup(Version, &Wsa) != 0) {
-		cout << "Startup error." << endl;
-		LOG(INFO, "ServerBoard::Server() " << "Windows startup error.");
-	}
-#endif
-
 	cout << "Initialized.";
 	LOG(INFO, "ServerBoard::Server() " << "Initialized.");
 
 	if ((Listen = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET) {
 		cout << "Could not create socket." << endl;
 		LOG(INFO, "ServerBoard::Server() " << "Could not create socket.");
-		exit(1);
+
 	} else {
 
 		cout << " Socket created.";
@@ -73,7 +67,7 @@ void ServerBoard::Server() {
 			sizeof(ServerAddr)) == SOCKET_ERROR) {
 		cout << "Bind Failed." << endl;
 		LOG(INFO, "ServerBoard::Server() " << "Bind failed.");
-		exit(1);
+
 	} else {
 
 		cout << " Bind Done." << endl;
@@ -112,8 +106,6 @@ void ServerBoard::Server() {
 
 #ifdef _WIN32
 	closesocket(Listen);
-	WSACleanup();
-	LOG(INFO, "ServerBoard::Server() " << "Close socket");
 #else
 	close(Listen);
 	LOG(INFO, "ServerBoard::Server() " << "Close socket" );

@@ -55,11 +55,13 @@ int Menu::MainMenu() {
 	int option;
 
 	string newGame = "\t\t\t [1] New Game";
-	string rules = "\t\t\t [2] Show Rules";
-	string exit = "\t\t\t [3] Exit to Desktop";
+	string localGame = "\t\t\t [2] Local Game";
+	string rules = "\t\t\t [3] Show Rules";
+	string exit = "\t\t\t [4] Exit to Desktop";
 	clearScreen();
 	cout << title << endl << endl;
 	cout << newGame << endl;
+	cout << localGame << endl;
 	cout << rules << endl;
 	cout << exit << endl << endl;
 	cout << enter;
@@ -78,13 +80,17 @@ int Menu::ReadOption(int &option) {
 		switch (choseOption[i]) {
 		case '1':
 			clearScreen();
-			NewGameMenu(option);
+			GameRun();
 			break;
 		case '2':
 			clearScreen();
-			Rules();
+			NewGameMenu(option);
 			break;
 		case '3':
+			clearScreen();
+			Rules();
+			break;
+		case '4':
 			cout << "\n\t\t\t Closing the game..." << endl;
 			sleep(1);
 			exit(1);

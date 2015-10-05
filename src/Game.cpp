@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <ctime>
 
-
 using namespace std;
 
 void clear() {
@@ -76,8 +75,6 @@ void Game::Run() {
 			bActiveBoard = (bActiveBoard == &b2 ? &b1 : &b2);
 			pActivePlayer = (pActivePlayer == &p1 ? &p2 : &p1);
 		}
-
-		cout << endl;
 
 		sleep(1);
 		clear();

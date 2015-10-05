@@ -10,9 +10,15 @@
 #include <arpa/inet.h>
 #endif
 
-#include<iostream>
+#include <iostream>
 #include <stdio.h>
 #include <unistd.h>
+#include <cstdlib>
+#include <cstring>
+
+#ifndef SOCKET_ERROR
+#define SOCKET_ERROR -1
+#endif
 
 const int BUFLEN = 1024;
 const int MAX_IP_SIZE = 15;
@@ -21,20 +27,12 @@ using namespace std;
 
 ClientBoard::ClientBoard() :
 		IBoard() {
-
 }
 
 void ClientBoard::Client() {
 
-#ifdef _WIN32
-	WSADATA Wsa;
-	WORD Version = MAKEWORD(2, 1);
-#endif
-
 	struct sockaddr_in ClientAddr;
-
 	int Connect;
-
 	int addrLen;
 	char buffer[BUFLEN];
 	char message[BUFLEN];
@@ -54,26 +52,22 @@ void ClientBoard::Client() {
 	LOG(INFO, "ServerBoard::Client() " << "Port: " << port);
 	cout << endl;
 
-#ifdef _WIN32
-	if (WSAStartup(Version, &Wsa) != 0) {
-		cout << "Startup error." << endl;
-		LOG(INFO, "ServerBoard::Client() " << "Windows startup error.");
-		exit(1);
-	}
-#endif
-
 	if ((Connect = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == SOCKET_ERROR) {
 		cout << "socket() failed with error code." << endl;
 		LOG(INFO,
 				"ServerBoard::Client() " << "socket() failed with error code.");
-		exit(1);
+
 	}
 
 	memset((char *) &ClientAddr, 0, sizeof(ClientAddr));
 
 	ClientAddr.sin_family = AF_INET;
 	ClientAddr.sin_port = htons(port);
+#ifdef _WIN32
 	ClientAddr.sin_addr.S_un.S_addr = inet_addr(ip);
+#else
+	ClientAddr.sin_addr.s_addr = inet_addr(ip);
+#endif
 
 	while (true) {
 

@@ -18,11 +18,14 @@ char outboard = 'F';
 
 const int MIN_COORD = 0;
 const int MAX_COORD = 9;
+const int DISTANCE = 1;
 
 Board::Board(std::string n) :
 		name(n) {
 
+	sea.resize(BOARD_DIM);
 	for (int x = 0; x < BOARD_DIM; x++) {
+		sea[x].resize(BOARD_DIM);
 		for (int y = 0; y < BOARD_DIM; y++) {
 			sea[x][y].state = EMPTY;
 		}
@@ -37,63 +40,46 @@ bool Board::CheckValidPlace(Ship &s) {
 	int x0 = s.GetCoord().x;
 	int y0 = s.GetCoord().y;
 	int decks = s.GetDecks();
-	int grid = 1;
 
-	switch (pos) {
+	for (int x = x0 - DISTANCE; x <= x0 + DISTANCE; x++) {
+		for (int y = y0 - DISTANCE; y <= y0 + DISTANCE; y++) {
+			if (x < MIN_COORD || x > MAX_COORD || y < MIN_COORD
+					|| y > MAX_COORD)
+				continue;
 
-	case VERT:
+			switch (pos) {
+			case VERT:
+				if (sea[x][y].state == DECK) {
+					validCell = false;
+				}
+				if (sea[x0 + decks][y].state == DECK) {
+					validCell = false;
+				}
+				for (int j = 0; j < decks; j++) {
+					if (sea[x0 + j][y].state != EMPTY) {
+						validCell = false;
+					}
+				}
+				break;
+			case HOR:
+				if (sea[x][y].state == DECK) {
+					validCell = false;
+				}
+				if (sea[x][y0 + decks].state == DECK) {
+					validCell = false;
+				}
 
-		if (sea[x0][y0].state != EMPTY) {
-			validCell = false;
-		}
-		for (int i = -grid; i <= grid; i++) {
-			if (sea[x0 - grid][y0 + i].state != EMPTY) {
-				validCell = false;
-			}
-			if (sea[x0 + decks][y0 + i].state != EMPTY) {
-				validCell = false;
-			}
-		}
-
-		for (int j = 0; j < decks; j++) {
-			if (sea[x0 + j][y0 - grid].state != EMPTY) {
-				validCell = false;
-			}
-			if (sea[x0 + j][y0 + grid].state != EMPTY) {
-				validCell = false;
-			}
-		}
-
-		break;
-
-	case HOR:
-
-		if (sea[x0][y0].state != EMPTY) {
-			validCell = false;
-		}
-		for (int i = -grid; i <= grid; i++) {
-			if (sea[x0 + i][y0 - grid].state != EMPTY) {
-				validCell = false;
-			}
-			if (sea[x0 + i][y0 + decks].state != EMPTY) {
-				validCell = false;
+				for (int j = 0; j < decks; j++) {
+					if (sea[x][y0 + j].state != EMPTY) {
+						validCell = false;
+					}
+				}
+				break;
+			default:
+				validCell = true;
+				break;
 			}
 		}
-
-		for (int j = 0; j < decks; j++) {
-			if (sea[x0 - grid][y0 + j].state != EMPTY) {
-				validCell = false;
-			}
-			if (sea[x0 + grid][y0 + j].state != EMPTY) {
-				validCell = false;
-			}
-		}
-
-		break;
-
-	default:
-		validCell = true;
-		break;
 	}
 
 	return validCell;
@@ -174,16 +160,16 @@ HIT_RESULT Board::Hit(COORDS c) {
 			cout << " Hit!!!" << endl;
 			LOG(INFO,
 					"Board::Hit(c):" << name <<" X:" << c.x << " Y:" << c.y << " result - Hit");
-
+			}
 			return BOOM;
-		}
 
 	} else {
 		cout << " You had already shot there \n please try again:" << endl;
 		LOG(INFO,
 				"Board::Hit(c):" << name <<" X:" << c.x << " Y:" << c.y << " result - Error");
-		return WASHIT;
+		return WAS_HIT;
 	}
+
 	return NO_BOOM;
 }
 

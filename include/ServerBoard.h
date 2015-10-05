@@ -8,10 +8,10 @@ class ServerBoard: public Board {
 public:
 	ServerBoard();
 	void Server();
-	bool PlaceShip(Ship &s) {return true;}
-	HIT_RESULT Hit(COORDS c){return NO_BOOM;}
-	bool AnyAlive() {return true;}
-	void Print(){}
+	virtual bool PlaceShip(Ship &s) {return true;}
+	virtual HIT_RESULT Hit(COORDS c){return NO_BOOM;}
+	virtual bool AnyAlive() {return true;}
+	virtual void Print(){}
 	virtual ~ServerBoard();
 
 };

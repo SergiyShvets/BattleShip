@@ -38,7 +38,7 @@ protected:
 	bool CheckValidHit(COORDS c);
 	std::string name;
 private:
-	Cell sea[BOARD_DIM][BOARD_DIM];
+	std::vector< std::vector <Cell> > sea;
 };
 
 #endif
