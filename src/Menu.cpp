@@ -7,7 +7,6 @@
 using namespace std;
 
 string title = "\n\n\n\t\t\t Battleships";
-string enter = "\t\t         Enter your option(1-3): ";
 
 void clearScreen() {
 #ifdef _WIN32
@@ -64,14 +63,14 @@ int Menu::MainMenu() {
 	cout << localGame << endl;
 	cout << rules << endl;
 	cout << exit << endl << endl;
-	cout << enter;
+	cout << "\t\t         Enter your option(1-4): ";
 	option = ReadOption(option);
 	return option;
 }
 
 int Menu::ReadOption(int &option) {
 
-	char choseOption[BOARD_DIM] = { '1', '2', '3' };
+	char choseOption[BOARD_DIM] = { '1', '2', '3', '4' };
 	string result;
 
 	for (int i = 0; i < BOARD_DIM; i++) {
@@ -139,7 +138,7 @@ int Menu::NewGameMenu(int &option) {
 	cout << create << endl;
 	cout << join << endl;
 	cout << back << endl << endl;
-	cout << enter;
+	cout << "\t\t         Enter your option(1-3): ";
 
 	char choseOption[BOARD_DIM] = { '1', '2', '3' };
 	for (int i = 0; i < BOARD_DIM; i++) {
